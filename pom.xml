@@ -5,30 +5,31 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.vaadin.addons</groupId>
-    <artifactId>addon-flow</artifactId>
+    <artifactId>api-data-textfield</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>Add-on for Vaadin</name>
-    <description>###Project Name###</description>
+    <name>Api Data Text Field Add-on for Vaadin</name>
+    <description>A Text Field that is backed by complex data.</description>
 
     <properties>
-        <vaadin.version>23.0.9</vaadin.version>
-
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8
-        </project.reporting.outputEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <lombok.version>1.18.24</lombok.version>
+        <vaadin.version>23.0.9</vaadin.version>
     </properties>
     <organization>
-        <name>###author###</name>
+        <name>bilarion</name>
     </organization>
     <licenses>
         <license>
             <name>Apache 2</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -99,6 +100,11 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>

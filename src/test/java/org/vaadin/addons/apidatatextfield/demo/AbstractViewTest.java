@@ -1,4 +1,4 @@
-package org.vaadin.example.addon;
+package org.vaadin.addons.apidatatextfield.demo;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.Assert;
