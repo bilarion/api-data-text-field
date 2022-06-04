@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.vaadin.addons</groupId>
-    <artifactId>api-data-textfield</artifactId>
+    <artifactId>api-data-text-field</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <name>Api Data Text Field Add-on for Vaadin</name>
     <description>A Text Field that is backed by complex data.</description>
