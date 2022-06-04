@@ -183,7 +183,7 @@ class ApiDataTextField extends ComboBox {
             } else {
                 this._focusedIndex = 0;
             }
-        } else if(this.selectedItem && (this.filter.length > 0 !== this._inputElementValue.length == 0)) {
+        } else if (this.selectedItem && this._inputElementValue && (this.filter.length > 0 !== this._inputElementValue.length == 0)) {
             this._focusedIndex = 0;
         }
     }
