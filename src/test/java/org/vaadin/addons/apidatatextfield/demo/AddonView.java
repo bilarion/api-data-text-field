@@ -12,7 +12,9 @@ import java.util.Arrays;
 public class AddonView extends Div {
 
     public AddonView() {
-        ApiDataTextField<Test> theAddon = new ApiDataTextField<>(Test::getId, Long.class, Test::getName);
+        ApiDataTextField<Test, Long> theAddon = new ApiDataTextField<>("id", Long.class, Test::getName);
+        theAddon.setLabel("Test Label");
+
         theAddon.setApiDataProvider(s -> Arrays.asList(
                 Test.builder().id(1L).name("Harry").description("Potter").build(),
                 Test.builder().id(2L).name("Hermione").description("Granger").build(),
@@ -36,10 +38,13 @@ public class AddonView extends Div {
             description.getStyle().set("color", "var(--lumo-secondary-text-color)");
             info.add(description);
 
+
             wrapper.add(info);
             return wrapper;
         });
         theAddon.setId("theAddon");
         add(theAddon);
+
+        theAddon.setValue("Takis Zax");
     }
 }

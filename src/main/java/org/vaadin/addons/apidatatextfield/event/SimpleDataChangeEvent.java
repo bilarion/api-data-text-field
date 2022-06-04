@@ -7,11 +7,11 @@ import org.vaadin.addons.apidatatextfield.ApiDataTextField;
 
 @Getter
 @ToString
-public class SimpleDataChangeEvent extends ComponentEvent<ApiDataTextField<?>> {
+public class SimpleDataChangeEvent extends ComponentEvent<ApiDataTextField<?, ?>> {
 
     private final String value;
 
-    public SimpleDataChangeEvent(ApiDataTextField<?> source, String value, boolean fromClient) {
+    public SimpleDataChangeEvent(ApiDataTextField<?, ?> source, String value, boolean fromClient) {
         super(source, fromClient);
         this.value = value;
     }

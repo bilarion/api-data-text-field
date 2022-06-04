@@ -1,7 +1,7 @@
 package org.vaadin.addons.apidatatextfield.util;
 
-public interface IdentifierConverter {
-    String convertToString(Object identifier) throws Exception;
+public interface IdentifierConverter<ID> {
+    String convertToString(ID identifier) throws Exception;
 
-    Object convertFromString(String identifierString) throws Exception;
+    ID convertFromString(String identifierString) throws Exception;
 }

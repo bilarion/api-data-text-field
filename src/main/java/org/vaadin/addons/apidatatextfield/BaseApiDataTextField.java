@@ -1,15 +1,38 @@
 package org.vaadin.addons.apidatatextfield;
 
-import com.vaadin.flow.component.Composite;
-import com.vaadin.flow.component.HasLabel;
-import com.vaadin.flow.component.HasValue;
+import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.combobox.dataview.ComboBoxDataView;
 import com.vaadin.flow.shared.Registration;
+import lombok.Getter;
+import lombok.Setter;
+import org.vaadin.addons.apidatatextfield.util.DefaultIdentifierConverter;
+import org.vaadin.addons.apidatatextfield.util.IdentifierConverter;
+import org.vaadin.addons.apidatatextfield.util.ReflectionUtil;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.function.Function;
 
-public abstract class BaseApiDataTextField extends Composite<LegacyBehaviorComboBox<String>> implements HasLabel, HasValue<HasValue.ValueChangeEvent<String>, String> {
+public abstract class BaseApiDataTextField<T, ID> extends Composite<LegacyBehaviorComboBox<String>> implements HasSize, HasValidation, HasHelper, HasTheme, HasLabel, HasStyle, HasText, HasValue<HasValue.ValueChangeEvent<String>, String> {
+
+    @Setter
+    @Getter
+    protected IdentifierConverter<ID> identifierConverter;
+
+    protected final Map<ID, T> dataMap = new LinkedHashMap<>();
+
+    @Getter
+    protected String dataIdentifierField;
+
+    protected Function<T, ID> dataIdentifierGetter;
+    @Setter
+    @Getter
+    protected Function<T, String> dataLabelGetter;
+    @Setter
+    @Getter
+    protected Class<ID> identifierType;
 
     public BaseApiDataTextField() {
         super();
@@ -17,6 +40,40 @@ public abstract class BaseApiDataTextField extends Composite<LegacyBehaviorCombo
         cb.setAllowCustomValue(true);
         cb.addCustomValueSetListener(event -> cb.setValue(event.getDetail()));
         cb.setItems(new ArrayList<>());
+    }
+
+    @SuppressWarnings("unchecked")
+    public void setDataIdentifierField(String dataIdentifierField, Class<ID> identifierType) {
+        dataIdentifierGetter = null;
+        this.dataIdentifierField = dataIdentifierField;
+        if (dataIdentifierField != null && identifierType != null) {
+            dataIdentifierGetter = t -> {
+                if (t == null) {
+                    return null;
+                }
+                return (ID) ReflectionUtil.dereferenceValue(t, t.getClass(), dataIdentifierField);
+            };
+            this.identifierType = identifierType;
+            if (this.identifierConverter == null || this.identifierConverter instanceof DefaultIdentifierConverter) {
+                this.identifierConverter = new DefaultIdentifierConverter<>(identifierType);
+            }
+        }
+    }
+
+    protected String identifierToString(ID identifier) {
+        try {
+            return identifierConverter.convertToString(identifier);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    protected ID stringToIdentifier(String identifierString) {
+        try {
+            return identifierConverter.convertFromString(identifierString);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
@@ -80,10 +137,12 @@ public abstract class BaseApiDataTextField extends Composite<LegacyBehaviorCombo
         return getContent().isEnabled();
     }
 
+    @Override
     public void setErrorMessage(String errorMessage) {
         getContent().setErrorMessage(errorMessage);
     }
 
+    @Override
     public String getErrorMessage() {
         return getContent().getErrorMessage();
     }
@@ -112,10 +171,12 @@ public abstract class BaseApiDataTextField extends Composite<LegacyBehaviorCombo
         return getContent().isPreventInvalidInput();
     }
 
+    @Override
     public void setInvalid(boolean invalid) {
         getContent().setInvalid(invalid);
     }
 
+    @Override
     public boolean isInvalid() {
         return getContent().isInvalid();
     }
@@ -143,7 +204,7 @@ public abstract class BaseApiDataTextField extends Composite<LegacyBehaviorCombo
     }
 
     @Override
-    public Registration addValueChangeListener(ValueChangeListener<? super ValueChangeEvent<String>> valueChangeListener) {
+    public Registration addValueChangeListener(HasValue.ValueChangeListener<? super HasValue.ValueChangeEvent<String>> valueChangeListener) {
         return getContent().addValueChangeListener(valueChangeListener);
     }
 }

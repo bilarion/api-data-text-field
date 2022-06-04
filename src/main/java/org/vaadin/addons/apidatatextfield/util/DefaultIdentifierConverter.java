@@ -1,20 +1,20 @@
 package org.vaadin.addons.apidatatextfield.util;
 
-public class DefaultIdentifierConverter implements IdentifierConverter {
+public class DefaultIdentifierConverter<ID> implements IdentifierConverter<ID> {
 
-    private final Class<?> identifierType;
+    private final Class<ID> identifierType;
 
-    public DefaultIdentifierConverter(Class<?> identifierType) {
+    public DefaultIdentifierConverter(Class<ID> identifierType) {
         this.identifierType = identifierType;
     }
 
     @Override
-    public String convertToString(Object identifier) {
+    public String convertToString(ID identifier) {
         return identifier != null ? String.valueOf(identifier) : null;
     }
 
     @Override
-    public Object convertFromString(String identifierString) {
-        return ReflectionUtil.getValueFromString(identifierString, identifierType);
+    public ID convertFromString(String identifierString) {
+        return (ID) ReflectionUtil.getValueFromString(identifierString, identifierType);
     }
 }
