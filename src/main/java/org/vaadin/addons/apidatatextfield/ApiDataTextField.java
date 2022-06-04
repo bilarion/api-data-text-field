@@ -39,7 +39,7 @@ public class ApiDataTextField<T, ID> extends BaseApiDataTextField<T, ID> {
         getContent().setItemLabelGenerator((ItemLabelGenerator<String>) s -> {
             ID id = stringToIdentifier(s);
             if (id != null && dataMap.get(id) != null) {
-                return dataLabelGetter.apply(dataMap.get(id));
+                return this.dataLabelGetter.apply(dataMap.get(id));
             }
             return s;
         });
